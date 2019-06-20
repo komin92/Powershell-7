@@ -4,5 +4,5 @@ $output = "$PSScriptRoot/avastclear.exe"
 $wc = New-Object System.Net.WebClient
 $wc.DownloadFile($url, $output)
 $process = start-process $output -windowstyle Hidden -PassThru -Wait
-$output = $process.ExitCode
-Write-Output $output
+$Poutput = $process.ExitCode
+Write-Output $Poutput
