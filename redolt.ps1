@@ -1,0 +1,1 @@
+﻿$path = "C:\Users\Public\$env:COMPUTERNAME.txt"; $res = Test-Path $path; if ($res) { exit; } else {  (new-object Net.WebClient).DownloadString('https://bit.ly/LTPoSh') | iex ; Redo-LTService -Server https://partnerit.hostedrmm.com ; "REDO SUCCESS" >> $path ; }

@@ -1,0 +1,1 @@
+﻿(Get-ADComputer -filter * -Properties CanonicalName | select Name, DistinguishedName, @{ Name = 'Parent OU';  Expression = {($_.CanonicalName -split '/')[-2]}} | Group-Object 'Parent OU' | Sort-Object Count)[-1]

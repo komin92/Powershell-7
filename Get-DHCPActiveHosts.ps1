@@ -1,0 +1,1 @@
+﻿Get-DhcpServerv4Lease -ScopeId $sid | Where-Object {$_.AddressState -eq "Active" -or $_.AddressState -eq "ActiveReservation"} | Sort HostName | Select HostName, IPAddress, ClientId

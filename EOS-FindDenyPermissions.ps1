@@ -1,0 +1,2 @@
+﻿ Get-Mailbox -ResultSize unlimited -Filter * | Get-MailboxPermission -User "eheine@robertsonhall.com" | Where-Object {$_.Deny -eq $true}
+ Remove-MailboxPermission -identity "Sue Clark" -user “eheine@robertsonhall.com” -AccessRights FullAccess -Deny

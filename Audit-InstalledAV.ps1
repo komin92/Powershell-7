@@ -2,7 +2,7 @@
 #Script Name: Audit-InstalledAV.ps1
 #Version : 1.1.20130305
 #Created On : 16th April 2014
-#Execution : ".\AV.ps1"
+#Execution : ".\Audit-InstalledAV.ps1"
 #Category : 
 #Notes  : Server OSs not supported
 #Example : ".\Audit-InstalledAV.ps1"
@@ -14,7 +14,7 @@ There are no parameters for this script
 
 Supports Operating Systems
 --------------------------------------
-Microsoft Windows XP Professional, Microsoft Windows Vista, Microsoft Windows 7, Microsoft Windows 8
+Microsoft Windows XP Professional, Microsoft Windows Vista, Microsoft Windows 7, Microsoft Windows 8, Windows 10
 
 Common Error Messages
 -------------------------------------
@@ -70,14 +70,14 @@ function chkAVproductState
 		
 		else {
 		
-			Write-Verbose $AVP.displayName " is installed on the target system."
+			Write-Host $AVP.displayName 'is installed on the target system'
 			
 			$intHex = "{0:X0}" -f $AVP.productState
 			$strHex = $intHex.Tostring()
 			$intSubString = $strHex.Substring(3)
 
 			if ($intSubString -eq "00"){
-				Write-Verbose $AVP.displayName " definition files are up to date."
+				Write-Host $AVP.displayName ' definition files are up to date.'
 			}
 			elseif ($intSubString -eq "10"){
 				$host.ui.WriteErrorLine($AVP.displayName + " " + $AVP.versionNumber + ' definition files are out of date.')
@@ -111,10 +111,10 @@ function chkAVproductUpToDate
 			[Environment]::Exit("11002")
 		}
 		else {
-				Write-Verbose $AVP.displayName " is installed on the target system."
+				Write-Host $AVP.displayName " is installed on the target system."
 				
 				if ($AVP.productUpToDate -eq "true"){
-					Write-Verbose $AVP.displayName " " $AVP.versionNumber " definition files are up to date."
+					Write-Host $AVP.displayName " " $AVP.versionNumber " definition files are up to date."
 				}
 				elseif ($AVP.productUpToDate -eq "false"){
 					$host.ui.WriteErrorLine($AVP.displayName + " " + $AVP.versionNumber + ' definition files are out of date.')
@@ -137,13 +137,13 @@ function chkAVproductUpToDate
 if ($OS[0] -eq "5") 
 { 
 	#Get Antivirus data from SecurityCenter.
-	$AntiVirusProduct = Get-WmiObject -Namespace root\SecurityCenter -Class AntiVirusProduct  -ComputerName $computername
+	$AntiVirusProduct = Get-WmiObject -Namespace root\SecurityCenter -Class AntiVirusProduct  -ComputerName $env:computername
 	chkAVproductUpToDate
 }
 
-elseif ($OS[0] -eq "6") {
+elseif ($OS[0] -eq "6" -or $OS[0] -eq 10) {
 	
 	#Get Antivirus data from SecurityCenter2.
-	$AntiVirusProduct = Get-WmiObject -Namespace root\SecurityCenter2 -Class AntiVirusProduct  -ComputerName $computername
+	$AntiVirusProduct = Get-WmiObject -Namespace root\SecurityCenter2 -Class AntiVirusProduct  -ComputerName $env:computername
 	chkAVproductState
 }
